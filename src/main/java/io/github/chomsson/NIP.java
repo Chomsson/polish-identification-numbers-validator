@@ -12,33 +12,25 @@ public class NIP {
     public ValidationResult validate() {
 
 
-
-        if (nip == null || nip.isEmpty()) {
-            ValidationResult validationResult = new ValidationResult();
-            validationResult.getErrorDescription().add(ValidationResultState.INCORRECT_SIZE);
-            return validationResult;
-        } else if (!nip.matches("[0-9/s-]*")) {
-            ValidationResult validationResult = new ValidationResult();
-            validationResult.getErrorDescription().add(ValidationResultState.ILLEGAL_CHARACTER);
-            return validationResult;
-        } else if (nip.length() != 10) {
-            ValidationResult validationResult = new ValidationResult();
-            validationResult.getErrorDescription().add(ValidationResultState.INCORRECT_SIZE);
-            return validationResult;
-        } else if (!checkSum(nip)){
-            ValidationResult validationResult = new ValidationResult();
-            validationResult.getErrorDescription().add(ValidationResultState.INCORRECT_CHECKSUM);
-            return validationResult;
+        if (nip.replaceAll("\\D+","") == null || nip.replaceAll("\\D+","").isEmpty()) {
+            return createResult(ValidationResultState.EMPTY_VALUE);
+        } else if (!nip.matches("[0-9\\s-]*")) {
+            return createResult(ValidationResultState.ILLEGAL_CHARACTER);
+        } else if (nip.replaceAll("\\D+","").length() != 10) {
+            return createResult(ValidationResultState.INCORRECT_SIZE);
+        } else if (!checkSum(nip.replaceAll("\\D+",""))) {
+            return createResult(ValidationResultState.INCORRECT_CHECKSUM);
+        } else {
+            return createResult(ValidationResultState.VALID);
         }
-        else{
-            ValidationResult validationResult = new ValidationResult();
-            validationResult.getErrorDescription().add(ValidationResultState.VALID);
-            return validationResult;
-        }
-
-
     }
 
+    private ValidationResult createResult(ValidationResultState validationResultState) {
+        ValidationResult validationResult = new ValidationResult();
+        validationResult.setErrorDescription(validationResultState);
+
+        return validationResult;
+    }
 
     private boolean checkSum(String nip) {
         int[] wages = {6, 5, 7, 2, 3, 4, 5, 6, 7};
@@ -52,7 +44,7 @@ public class NIP {
     }
 
     public boolean isValid() {
-        return validate().getErrorDescription().contains(ValidationResultState.VALID);
+        return validate().getErrorDescription().equals(ValidationResultState.VALID);
     }
 
 

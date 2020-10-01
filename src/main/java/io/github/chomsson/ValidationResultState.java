@@ -5,5 +5,6 @@ public enum ValidationResultState {
     VALID,
     ILLEGAL_CHARACTER,
     INCORRECT_SIZE,
-    INCORRECT_CHECKSUM
+    INCORRECT_CHECKSUM,
+    EMPTY_VALUE
 }

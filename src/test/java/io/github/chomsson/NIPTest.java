@@ -1,6 +1,7 @@
 package io.github.chomsson;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -69,7 +70,7 @@ public class NIPTest {
         assertThat(result.getErrorDescription(), is(equalTo(ValidationResultState.INCORRECT_CHECKSUM)));
         assertFalse(nip.isValid());
     }
-
+    @NullSource
     @ParameterizedTest
     @ValueSource(strings = {"", "  ", "----"})
     void test_null(String input) {

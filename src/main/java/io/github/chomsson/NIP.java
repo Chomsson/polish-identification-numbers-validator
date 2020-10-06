@@ -12,7 +12,7 @@ public class NIP {
     public ValidationResult validate() {
 
 
-        if (nip.replaceAll("\\D+","") == null || nip.replaceAll("\\D+","").isEmpty()) {
+        if (nip == null || nip.replaceAll("\\D+","").isEmpty()) {
             return createResult(ValidationResultState.EMPTY_VALUE);
         } else if (!nip.matches("[0-9\\s-]*")) {
             return createResult(ValidationResultState.ILLEGAL_CHARACTER);

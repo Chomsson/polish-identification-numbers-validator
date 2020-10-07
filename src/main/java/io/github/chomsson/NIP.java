@@ -9,42 +9,21 @@ public class NIP {
         this.nip = nip;
     }
 
-    public ValidationResult validate() {
+    public ValidationResultState validate() {
 
 
-        if (nip == null || nip.replaceAll("\\D+","").isEmpty()) {
-            return createResult(ValidationResultState.EMPTY_VALUE);
-        } else if (!nip.matches("[0-9\\s-]*")) {
-            return createResult(ValidationResultState.ILLEGAL_CHARACTER);
-        } else if (nip.replaceAll("\\D+","").length() != 10) {
-            return createResult(ValidationResultState.INCORRECT_SIZE);
-        } else if (!checkSum(nip.replaceAll("\\D+",""))) {
-            return createResult(ValidationResultState.INCORRECT_CHECKSUM);
-        } else {
-            return createResult(ValidationResultState.VALID);
-        }
+        return new EmptyValidator().validate(nip).
+                or(() -> new IllegalCharValidator().validate(nip)).
+                or(() -> new IncorrectSizeValidator().validate(nip)).
+                or(() -> new IncorrectCheckSumValidator().validate(nip)).
+                orElse(ValidationResultState.VALID);
+
+
     }
 
-    private ValidationResult createResult(ValidationResultState validationResultState) {
-        ValidationResult validationResult = new ValidationResult();
-        validationResult.setErrorDescription(validationResultState);
-
-        return validationResult;
-    }
-
-    private boolean checkSum(String nip) {
-        int[] wages = {6, 5, 7, 2, 3, 4, 5, 6, 7};
-        int sum = 0;
-
-        for (int i = 0; i < wages.length; i++) {
-            sum += wages[i] * Character.getNumericValue(nip.charAt(i));
-        }
-
-        return sum % 11 == Character.getNumericValue(nip.charAt(9));
-    }
 
     public boolean isValid() {
-        return validate().getErrorDescription().equals(ValidationResultState.VALID);
+        return validate().equals(ValidationResultState.VALID);
     }
 
 

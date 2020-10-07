@@ -23,8 +23,8 @@ public class NIPTest {
     })
     public void test_validate(String input) {
         NIP nip = new NIP(input);
-        ValidationResult result = nip.validate();
-        assertThat(result.getErrorDescription(), is(equalTo(ValidationResultState.VALID)));
+        ValidationResultState result = nip.validate();
+        assertThat(result, is(equalTo(ValidationResultState.VALID)));
         assertTrue(nip.isValid());
     }
 
@@ -38,8 +38,8 @@ public class NIPTest {
     })
     public void test_incorrectChars(String input) {
         NIP nip = new NIP(input);
-        ValidationResult result = nip.validate();
-        assertThat(result.getErrorDescription(), is(equalTo(ValidationResultState.ILLEGAL_CHARACTER)));
+        ValidationResultState result = nip.validate();
+        assertThat(result, is(equalTo(ValidationResultState.ILLEGAL_CHARACTER)));
         assertFalse(nip.isValid());
     }
 
@@ -52,8 +52,8 @@ public class NIPTest {
             "797125447", "332579"})
     public void test_size(String input) {
         NIP nip = new NIP(input);
-        ValidationResult result = nip.validate();
-        assertThat(result.getErrorDescription(), is(equalTo(ValidationResultState.INCORRECT_SIZE)));
+        ValidationResultState result = nip.validate();
+        assertThat(result, is(equalTo(ValidationResultState.INCORRECT_SIZE)));
         assertFalse(nip.isValid());
     }
 
@@ -66,8 +66,8 @@ public class NIPTest {
             "7971250446", "3372332576"})
     public void test_checkSum(String input) {
         NIP nip = new NIP(input);
-        ValidationResult result = nip.validate();
-        assertThat(result.getErrorDescription(), is(equalTo(ValidationResultState.INCORRECT_CHECKSUM)));
+        ValidationResultState result = nip.validate();
+        assertThat(result, is(equalTo(ValidationResultState.INCORRECT_CHECKSUM)));
         assertFalse(nip.isValid());
     }
     @NullSource
@@ -75,8 +75,8 @@ public class NIPTest {
     @ValueSource(strings = {"", "  ", "----"})
     void test_null(String input) {
         NIP nip = new NIP(input);
-        ValidationResult result = nip.validate();
-        assertThat(result.getErrorDescription(), is(equalTo(ValidationResultState.EMPTY_VALUE)));
+        ValidationResultState result = nip.validate();
+        assertThat(result, is(equalTo(ValidationResultState.EMPTY_VALUE)));
         assertFalse(nip.isValid());
     }
 }

@@ -12,11 +12,11 @@ public class NIP {
     public ValidationResultState validate() {
 
 
-        return new EmptyValidator().validate(nip).
-                or(() -> new IllegalCharValidator().validate(nip)).
-                or(() -> new IncorrectSizeValidator().validate(nip)).
-                or(() -> new IncorrectCheckSumValidator().validate(nip)).
-                orElse(ValidationResultState.VALID);
+        return new EmptyValidator().validate(nip)
+                .or(() -> new IllegalCharValidator().validate(nip))
+                .or(() -> new IncorrectSizeValidator().validate(nip))
+                .or(() -> new IncorrectCheckSumValidator().validate(nip))
+                .orElse(ValidationResultState.VALID);
 
 
     }

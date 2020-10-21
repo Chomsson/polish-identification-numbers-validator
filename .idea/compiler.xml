@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="polish-identification-numbers-validator" target="9" />
+      <module name="polish-identification-numbers-validator" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

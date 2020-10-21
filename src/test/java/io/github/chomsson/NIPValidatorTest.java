@@ -11,7 +11,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
-public class NIPTest {
+public class NIPValidatorTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
@@ -22,10 +22,10 @@ public class NIPTest {
             "-7971250447-", "3372332579"
     })
     public void test_validate(String input) {
-        NIP nip = new NIP(input);
-        ValidationResultState result = nip.validate();
+
+        ValidationResultState result = new NIPValidator().validate(input);
         assertThat(result, is(equalTo(ValidationResultState.VALID)));
-        assertTrue(nip.isValid());
+        assertTrue(new NIPValidator().isValid(input));
     }
 
     @ParameterizedTest
@@ -37,10 +37,9 @@ public class NIPTest {
             "797;;'0447", "337a's2579"
     })
     public void test_incorrectChars(String input) {
-        NIP nip = new NIP(input);
-        ValidationResultState result = nip.validate();
+        ValidationResultState result = new NIPValidator().validate(input);
         assertThat(result, is(equalTo(ValidationResultState.ILLEGAL_CHARACTER)));
-        assertFalse(nip.isValid());
+        assertFalse(new NIPValidator().isValid(input));
     }
 
     @ParameterizedTest
@@ -51,10 +50,9 @@ public class NIPTest {
             "9783689", "12786025",
             "797125447", "332579"})
     public void test_size(String input) {
-        NIP nip = new NIP(input);
-        ValidationResultState result = nip.validate();
+        ValidationResultState result = new NIPValidator().validate(input);
         assertThat(result, is(equalTo(ValidationResultState.INCORRECT_SIZE)));
-        assertFalse(nip.isValid());
+        assertFalse(new NIPValidator().isValid(input));
     }
 
     @ParameterizedTest
@@ -65,18 +63,16 @@ public class NIPTest {
             "9786053687", "1250786027",
             "7971250446", "3372332576"})
     public void test_checkSum(String input) {
-        NIP nip = new NIP(input);
-        ValidationResultState result = nip.validate();
+        ValidationResultState result = new NIPValidator().validate(input);
         assertThat(result, is(equalTo(ValidationResultState.INCORRECT_CHECKSUM)));
-        assertFalse(nip.isValid());
+        assertFalse(new NIPValidator().isValid(input));
     }
     @NullSource
     @ParameterizedTest
     @ValueSource(strings = {"", "  ", "----"})
     void test_null(String input) {
-        NIP nip = new NIP(input);
-        ValidationResultState result = nip.validate();
+        ValidationResultState result = new NIPValidator().validate(input);
         assertThat(result, is(equalTo(ValidationResultState.EMPTY_VALUE)));
-        assertFalse(nip.isValid());
+        assertFalse(new NIPValidator().isValid(input));
     }
 }
